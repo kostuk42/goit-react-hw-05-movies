@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import {Link, Outlet, useLocation, useParams} from 'react-router-dom';
 import {getMovieDetails} from "../../services/api";
 import styled from 'styled-components';
 import {NoPhotoAvailable} from "../../components/styles";
+import Loader from "../../components/Loader/Loader";
 
 const StyledMovieDetails = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const MovieDetails = () => {
   }, [movieId]);
 
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   return (
@@ -70,13 +71,11 @@ const MovieDetails = () => {
           </Link>
         </li>
       </ul>
-      <Outlet/>
+      <Suspense fallback={<Loader/>}>
+        <Outlet/>
+      </Suspense>
     </StyledMovieDetails>
   );
 };
-
-// MovieDetails.propTypes = {
-//   match: PropTypes.object.isRequired,
-// };
 
 export default MovieDetails;

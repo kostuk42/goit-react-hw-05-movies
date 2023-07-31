@@ -1,7 +1,7 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {Suspense} from 'react';
+import {Link, Outlet} from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from "prop-types";
+import Loader from "../Loader/Loader";
 
 const Header = styled.div`
   background-color: #333;
@@ -18,20 +18,18 @@ const Button = styled(Link)`
   margin-right: 10px;
 `;
 
-const SharedLayout = ({children}) => {
+const SharedLayout = () => {
   return (
     <div>
       <Header>
         <Button to="/">Home</Button>
         <Button to="/movies">Movies</Button>
       </Header>
-      {children}
+      <Suspense fallback={<Loader/>}>
+        <Outlet/>
+      </Suspense>
     </div>
   );
-};
-
-SharedLayout.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default SharedLayout;

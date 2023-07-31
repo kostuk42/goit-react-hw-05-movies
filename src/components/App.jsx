@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from 'react';
+import React, {lazy} from 'react';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 import SharedLayout from "./SharedLayout/SharedLayout";
@@ -8,7 +8,12 @@ li {
   list-style: none;
   text-decoration: none;
   }
-/* Your global styles here */
+
+ .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 `;
 
 const Home = lazy(() => import('../pages/Home/Home'));
@@ -19,27 +24,19 @@ const Reviews = React.lazy(() => import('./Reviews/Reviews'));
 
 const App = () => {
   return (
-    <Router>
+    <Router basename={'/goit-react-hw-05-movies'}>
       <StyledApp>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={
-              <SharedLayout>
-                <Home/>
-              </SharedLayout>
-            }/>
-            <Route path="/movies" element={
-              <SharedLayout>
-                <Movies/>
-              </SharedLayout>
-            }/>
+        <Routes>
+          <Route path="/" element={<SharedLayout/>}>
+            <Route index element={<Home/>}/>
+            <Route path="/movies" element={<Movies/>}/>
             <Route path="/movies/:movieId" element={<MovieDetails/>}>
               <Route path="cast" element={<Cast/>}/>
               <Route path="reviews" element={<Reviews/>}/>
             </Route>
             <Route path="*" element={<Navigate to="/" replace/>}/>
-          </Routes>
-        </Suspense>
+          </Route>
+        </Routes>
       </StyledApp>
     </Router>
   );
