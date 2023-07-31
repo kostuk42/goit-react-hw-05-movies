@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {getMovieCast} from "../../services/api";
 import styled from 'styled-components';
 import {NoPhotoAvailable} from "../styles";
-import PropTypes from "prop-types";
+
 
 const CastContainer = styled.div`
   display: flex;
